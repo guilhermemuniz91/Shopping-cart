@@ -15,5 +15,6 @@ export const fetchProductsList = async (searchTerm) => {
   const searchTermUrl = `https://api.mercadolibre.com/sites/MLB/search?q=${searchTerm}`;
   const response = await fetch(searchTermUrl);
   const data = await response.json();
-  return data;
+  const { results } = data;
+  return results;
 };
