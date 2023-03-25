@@ -7,7 +7,7 @@ document.querySelector('.cep-button').addEventListener('click', searchCep);
 
 const productSection = document.getElementsByClassName('products');
 
-const async createList = () => {
+const createList = async () => {
   const productList = await fetchProductsList('computador');
   productList.forEach((product) => {
     productSection.appendChild(createProductElement(product));
