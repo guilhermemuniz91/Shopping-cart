@@ -5,7 +5,7 @@ import { fetchProductsList } from './helpers/fetchFunctions';
 
 document.querySelector('.cep-button').addEventListener('click', searchCep);
 
-const productSection = document.getElementsByClassName('products');
+const productSection = document.querySelector('.products');
 
 const createList = async () => {
   const productList = await fetchProductsList('computador');

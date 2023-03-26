@@ -12,7 +12,7 @@ export const getAddress = async (cep) => {
 
 export const searchCep = async (cep) => {
   // const cepInput = document.getElementsByClassName('cep-input');
-  const spanAddress = document.getElementsByClassName('cart__address');
+  const spanAddress = document.querySelector('.cart__address');
   try {
     await getAddress(cep);
     spanAddress.innerText = `${wcf.address || wcf.street} - ${wcf.neighborhood
