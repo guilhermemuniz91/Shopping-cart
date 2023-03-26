@@ -14,7 +14,7 @@ export const searchCep = async (cep) => {
   // const cepInput = document.getElementsByClassName('cep-input');
   const spanAddress = document.getElementsByClassName('cart__address');
   try {
-    const clientAddress = await getAddress(cep);
+    await getAddress(cep);
     spanAddress.innerText = `${wcf.address || wcf.street} - ${wcf.neighborhood
     || wcf.district} - ${wcf.city} - ${wcf.state}`;
   } catch (Error) {
