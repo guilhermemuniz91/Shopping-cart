@@ -6,13 +6,18 @@ export const getAddress = async (cep) => {
   const data1 = await response1.json();
   const data2 = await response2.json();
   const promises = [data1, data2];
-  const whatComesFirst = Promise.any(promises);
-  return whatComesFirst;
+  const wcf = Promise.any(promises); // wcf stands for whatComesFirst
+  return wcf;
 };
 
-export const searchCep = async () => {
-  const cepInput = document.getElementsByClassName('cep-input');
+export const searchCep = async (cep) => {
+  // const cepInput = document.getElementsByClassName('cep-input');
   const spanAddress = document.getElementsByClassName('cart__address');
-  const clientAddress = await getAddress(cep);
-  spanAddress.innerText = `${whatComesFirst.address || whatComesFirst.street} - ${whatComesFirst.neighborhood || whatComesFirst.district} - ${whatComesFirst.city} - ${whatComesFirst.state}`;
+  try {
+    const clientAddress = await getAddress(cep);
+    spanAddress.innerText = `${wcf.address || wcf.street} - ${wcf.neighborhood
+    || wcf.district} - ${wcf.city} - ${wcf.state}`;
+  } catch (Error) {
+    spanAddress.innerText = 'CEP não encontrado';
+  }
 };
