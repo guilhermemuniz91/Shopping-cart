@@ -12,7 +12,6 @@ export const searchCep = async () => {
   try {
     const clientAddress = await getAddress(cepInput);
     const { street, address, neighborhood, district, city, state } = clientAddress;
-    // spanAddress.innerText = `${address}, ${district}, ${city}, ${state}`;
     spanAddress.innerText = `${address || street} - ${neighborhood
       || district} - ${city} - ${state}`;
   } catch (Error) {
