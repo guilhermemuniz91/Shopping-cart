@@ -24,7 +24,7 @@ const createList = async () => {
     productList.forEach((product) => {
       productSection.appendChild(createProductElement(product));
     });
-  } catch (erro) {
+  } catch (error) {
     apiError();
   }
   const removeLoadingDiv = document.querySelector('.loading');
