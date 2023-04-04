@@ -124,7 +124,22 @@ export const createProductElement = ({ id, title, thumbnail, price }) => {
   );
   section.appendChild(cartButton);
 
-  cartButton.addEventListener('click', () => addProductToCart(id));
-
   return section;
 };
+
+const cartList = document.querySelector('.cart__products');
+
+const sumCartPrice = (price) => {
+  let cartTotal = 0;
+  cartTotal += price;
+  const cartTotalPrice = document.querySelector('.total-price');
+  cartTotalPrice.innerText = cartTotal.toFixed(2);
+};
+const addProductToCart = async (productId) => {
+  const selectedProduct = await fetchProduct(productId);
+  const product = createCartProductElement(selectedProduct);
+  cartList.appendChild(product);
+  sumCartPrice(selectedProduct.price);
+};
+
+cartButton.addEventListener('click', () => addProductToCart(id));
