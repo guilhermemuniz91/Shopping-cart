@@ -1,5 +1,5 @@
-import { removeCartID } from './cartFunctions';
-// import { addProductToCart } from './shopFunctions';
+import { getSavedCartIDs, removeCartID, saveCartID } from './cartFunctions';
+import { fetchProduct } from './fetchFunctions';
 
 // Esses comentários que estão antes de cada uma das funções são chamados de JSdoc,
 // experimente passar o mouse sobre o nome das funções e verá que elas possuem descrições!
@@ -101,6 +101,35 @@ export const createCartProductElement = ({ id, title, price, pictures }) => {
  * @param {number} product.price - Preço do produto.
  * @returns {Element} Elemento de produto.
  */
+
+// <-------------------------------------------------->
+const cartList = document.querySelector('.cart__products');
+const cartTotalPrice = document.querySelector('.total-price');
+
+const recoverCartList = async () => {
+  const savedCartIDs = getSavedCartIDs();
+  const promises = savedCartIDs.map((id) => fetchProduct(id));
+  const response = await Promise.all(promises);
+  response.forEach((product) => {
+    cartList.appendChild(createCartProductElement(product));
+  });
+};
+recoverCartList();
+
+const sumCartPrice = async (price) => {
+  let cartTotal = 0;
+  cartTotal += price;
+  cartTotalPrice.innerText = cartTotal.toFixed(2);
+};
+
+const addProductToCart = async (productId) => {
+  const selectedProduct = await fetchProduct(productId);
+  const product = createCartProductElement(selectedProduct);
+  cartList.appendChild(product);
+  sumCartPrice(selectedProduct.price);
+  saveCartID(productId);
+};
+// <------------------------------------------------->
 export const createProductElement = ({ id, title, thumbnail, price }) => {
   const section = document.createElement('section');
   section.className = 'product';
@@ -123,23 +152,6 @@ export const createProductElement = ({ id, title, thumbnail, price }) => {
     'Adicionar ao carrinho!',
   );
   section.appendChild(cartButton);
-
+  cartButton.addEventListener('click', () => addProductToCart(id));
   return section;
 };
-
-const cartList = document.querySelector('.cart__products');
-
-const sumCartPrice = (price) => {
-  let cartTotal = 0;
-  cartTotal += price;
-  const cartTotalPrice = document.querySelector('.total-price');
-  cartTotalPrice.innerText = cartTotal.toFixed(2);
-};
-const addProductToCart = async (productId) => {
-  const selectedProduct = await fetchProduct(productId);
-  const product = createCartProductElement(selectedProduct);
-  cartList.appendChild(product);
-  sumCartPrice(selectedProduct.price);
-};
-
-cartButton.addEventListener('click', () => addProductToCart(id));
